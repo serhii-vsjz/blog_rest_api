@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ArticleResource extends JsonResource
@@ -16,9 +17,10 @@ class ArticleResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user_name' => $this->user->name,
             'title' => $this->title,
             'text' => $this->text,
+            'comments' => CommentResource::collection($this->comments),
         ];
     }
 }

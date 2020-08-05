@@ -31,6 +31,8 @@ Route::group(['namespace' => 'Api'], function () {
     Route::put('articles/{article}', 'ArticleController@update')->middleware('auth:api');
     Route::delete('articles/{article}', 'ArticleController@destroy')->middleware('auth:api');
 
-    Route::apiResource('Comment', 'CommentController')->only('index', 'store', 'destroy');
+    Route::post('comments/{article}', 'CommentController@store')->middleware('auth:api');
+
+    // Route::apiResource('Comment', 'CommentController')->only('index', 'store', 'destroy');
 });
 

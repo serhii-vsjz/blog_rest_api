@@ -22,7 +22,9 @@ final class ArticleController extends Controller
     {
         return ArticleResource::collection(Article::all())
             ->response()
-            ->setStatusCode(Response::HTTP_OK)->header();
+            ->header('Content-Type','application/json')
+            ->setEncodingOptions('charset=UTF-8')
+            ->setStatusCode(Response::HTTP_OK);
     }
 
 
