@@ -22,7 +22,6 @@ Route::group(['namespace' => 'Api'], function () {
 
         Route::post('login', 'LoginController');
         Route::post('register', 'RegisterController');
-        Route::post('logout', 'LogoutController')->middleware('auth:api');
     });
 
     Route::get('articles', 'ArticleController@index');
