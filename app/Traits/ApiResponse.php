@@ -3,9 +3,7 @@
 
 namespace App\Traits;
 
-use Response;
-
-
+use Illuminate\Support\Facades\Response;
 
 trait ApiResponse
 {
@@ -19,7 +17,7 @@ trait ApiResponse
         return Response::json(self::makeError($error, $data), $code);
     }
 
-    public static function  makeResponse($message, $data)
+    public static function  makeResponse($message, $data = [])
     {
         return [
             'success' => true,

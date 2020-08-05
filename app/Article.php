@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Article extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'title',
+        'text',
+    ];
+
     /**
      * Get the user that owns the article
      */
@@ -23,4 +29,5 @@ class Article extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
 }

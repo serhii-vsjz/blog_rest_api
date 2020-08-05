@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Article;
+use App\Http\Resources\ArticleResource;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,8 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['namespace' => 'Api'], function () {
+
+    Route::group(['namespace' => 'Auth'], function () {
+
+        Route::post('login', 'LoginController');
+        Route::post('register', 'RegisterController');
+        Route::post('logout', 'LogoutController')->middleware('auth:api');
+    });
+
+    Route::get('articles', 'ArticleController@index');
+    Route::get('articles/{article}', 'ArticleController@show');
+    Route::post('articles', 'ArticleController@store')->middleware('auth:api');
+    Route::put('articles/{article}', 'ArticleController@update')->middleware('auth:api');
+    Route::delete('articles/{article}', 'ArticleController@destroy')->middleware('auth:api');
+
+    Route::apiResource('Comment', 'CommentController')->only('index', 'store', 'destroy');
 });
 
-Route::apiResource('articles', 'ArticleController');
