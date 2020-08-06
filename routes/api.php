@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Article;
-use App\Http\Resources\ArticleResource;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,19 +17,22 @@ use App\Http\Resources\ArticleResource;
 Route::group(['namespace' => 'Api'], function () {
 
     Route::group(['namespace' => 'Auth'], function () {
-
         Route::post('login', 'LoginController');
         Route::post('register', 'RegisterController');
     });
 
-    Route::get('articles', 'ArticleController@index');
-    Route::get('articles/{article}', 'ArticleController@show');
-    Route::post('articles', 'ArticleController@store')->middleware('auth:api');
-    Route::put('articles/{article}', 'ArticleController@update')->middleware('auth:api');
-    Route::delete('articles/{article}', 'ArticleController@destroy')->middleware('auth:api');
+    Route::get('article', 'ArticleController@index');
+    Route::get('article/{article}', 'ArticleController@show')->name('article.show');
 
-    Route::post('comments/{article}', 'CommentController@store')->middleware('auth:api');
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('article', 'ArticleController@store');
+        Route::put('article/{article}', 'ArticleController@update');
+        Route::delete('article/{article}', 'ArticleController@destroy');
 
-    // Route::apiResource('Comment', 'CommentController')->only('index', 'store', 'destroy');
+        Route::post('comment/{article}', 'CommentController@store');
+    });
+
+
+
 });
 

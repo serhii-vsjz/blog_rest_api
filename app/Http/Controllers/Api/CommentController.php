@@ -13,9 +13,9 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response|object
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, int $id)
     {
@@ -23,8 +23,9 @@ class CommentController extends Controller
 
         $comment = Comment::create(array_merge($request->all(), ['user_id' => $user->id, 'article_id' => $id]));
 
-        return (new CommentResource($comment))
-            ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+        return response()->json(
+            null,
+            201,
+            ['Location' => route('article.show', ['article' => $comment->article->id])]);
     }
 }
