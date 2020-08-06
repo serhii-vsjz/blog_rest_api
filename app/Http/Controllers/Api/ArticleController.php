@@ -13,6 +13,7 @@ use Illuminate\Routing\RouteUrlGenerator;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\URL;
+use App\Http\Requests\ArticlePostRequest;
 
 
 final class ArticleController extends Controller
@@ -53,17 +54,19 @@ final class ArticleController extends Controller
     /**
      * Save the new article in storage.
      *
-     * @param Request $request
+     * @param ArticlePostRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(ArticlePostRequest $request)
     {
+        $data = $request->validated();
+
         $user = auth()->guard('api')->user();
 
-        $article = Article::create(array_merge($request->all(), ['user_id' => $user->id]));
+        $article = Article::create(array_merge($data, ['user_id' => $user->id]));
 
         return response()->json(
-            null,
+            (new ArticleResource($article)),
             201,
         ['Location' => route('article.show', ['article' => $article->id])]);
     }
@@ -75,7 +78,7 @@ final class ArticleController extends Controller
      * @param int $objectId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, int $objectId)
+    public function update(ArticlePostRequest $request, int $objectId)
     {
         $article = Article::find($objectId);
 
@@ -83,12 +86,11 @@ final class ArticleController extends Controller
             return response()->json(null,Response::HTTP_NOT_FOUND);
         }
 
-        $data = $request->all();
+        $data = $request->validated();
 
         if (Gate::allows('update-article', $article))
         {
             $article = $article->fill($data)->push();
-            //
             return response()->json(null, Response::HTTP_NO_CONTENT);
         } else {
             return response()->json(null, Response::HTTP_FORBIDDEN);

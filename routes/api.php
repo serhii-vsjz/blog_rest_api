@@ -21,10 +21,12 @@ Route::group(['namespace' => 'Api'], function () {
         Route::post('register', 'RegisterController');
     });
 
-    Route::get('article', 'ArticleController@index');
+
     Route::get('article/{article}', 'ArticleController@show')->name('article.show');
+    Route::get('article', 'ArticleController@index');
 
     Route::group(['middleware' => 'auth:api'], function () {
+
         Route::post('article', 'ArticleController@store');
         Route::put('article/{article}', 'ArticleController@update');
         Route::delete('article/{article}', 'ArticleController@destroy');

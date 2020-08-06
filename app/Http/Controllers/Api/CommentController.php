@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Comment;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommentPostRequest;
 use App\Http\Resources\CommentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,7 +18,7 @@ class CommentController extends Controller
      * @param int $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, int $id)
+    public function store(CommentPostRequest $request, int $id)
     {
         $user = auth()->guard('api')->user();
 
