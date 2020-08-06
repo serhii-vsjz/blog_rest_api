@@ -1,6 +1,39 @@
 ## Запуска приложения с помощью docker-compose
 
+Клонируем проект 
+git clone https://github.com/Serhii-Vasyliev-k/blog_rest_api
+
+Переходим в папку с проектом
+cd blog_rest_api
+
+запустить приложение локально
 sudo docker-compose up
+
+после запуска открываем новое окно терминала, подключаемся к машине
+sudo docker-compose exec app bash
+
+разворачиваем проект laravel
+composer install
+
+копируем файл конфигурации laravel
+cp .env.example .env
+
+генерируем ключ приложения
+php artisan key:generate
+
+устанавливаем ключи passport laravel
+php artisan passport:install
+
+
+Приложени будет доступно на localhost
+
+## Комментарии 
+
+Проверка работостособности выполняется с помощью postman
+https://www.postman.com/
+
+GET localhost/api/article
+
 
 ## Endpoints
 
@@ -9,6 +42,8 @@ sudo docker-compose up
 
 ** api/login ** ** method POST **
 роут аутентификации пользователя
+возвращает Bearer token зарегестрированому пользователю, для подтверждения аутентификации
+
 
 ** api/article ** method ** GET **
 роут со списком всех статей
@@ -28,7 +63,3 @@ sudo docker-compose up
 ** api/article/{'id_статьи'} ** method ** DELETE ** (удаляет вместе со связаными коментариями
 роут удаления статьи
 
-## Комментарии 
-
-Проверка работостособности выполняется с помощью postman
-https://www.postman.com/
