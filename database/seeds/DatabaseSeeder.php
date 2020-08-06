@@ -14,14 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory(User::class, 5)
-            ->create()
-            ->each(function ($user) {
-                $articles = $user->articles()->createMany(
-                    factory(Article::class, 3)->make()->toArray()
-                );
-        });
-
-        $articles = factory(Comment::class, 15)->create();
+        $this->call(UserSeeder::class);
+        $this->call(ArticleSeeder::class);
+        $this->call(CommentSeeder::class);
     }
 }
