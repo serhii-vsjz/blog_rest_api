@@ -18,6 +18,9 @@ composer install
 копируем файл конфигурации laravel
 cp .env.example .env
 
+запускаем миграцию и заполняем данными
+php artisan migrate --seed
+
 генерируем ключ приложения
 php artisan key:generate
 
